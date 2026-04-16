@@ -1,0 +1,58 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; // 화면 꽉 채우기
+  width: 100vw;
+  overflow: hidden; // 전체 스크롤 방지
+  .header {
+    padding: 1rem 2rem;
+    border-bottom: 1px solid #eaeaea;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+
+    .nav {
+      a {
+        font-weight: bold;
+        font-size: 1.2rem;
+        text-decoration: none;
+        color: #333;
+      }
+    }
+    .username {
+      color: #333;
+      margin-right: 1rem;
+      font-weight: bold;
+    }
+    .authButton {
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-radius: 4px;
+      border: 1px solid #333;
+      background-color: transparent;
+      transition: background-color 0.2s;
+      &:hover {
+        background-color: #f5f5f5;
+      }
+    }
+  }
+  .main {
+    flex: 1; // 남은 공간 모두 차지
+    // background-color: green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // flex-direction: column;
+    overflow-y: auto; // 레이아웃은 고정하되, 컨텐츠가 길어지면 내부에서만 스크롤!
+
+    // min-height: 0;
+    // width: 100%; // 가로 너비도 꽉 채우도록 보장
+  }
+  .footer {
+    padding: 1.5rem;
+    border-top: 1px solid #eaeaea;
+    text-align: center;
+    color: #666;
+  }
+}

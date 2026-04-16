@@ -1,0 +1,93 @@
+.container {
+  width: 400px;
+  //공통적인 스타일은 Layout.module.scss의 main에 작성하면 이곳에서 상속되어 적용된다.
+
+  .header {
+    width: 100%; // w-full
+    max-width: 28rem; // max-w-md (Tailwind 기준 448px)
+    border-radius: 0.5rem; // rounded-lg (8px)
+    background-color: rgb(226, 235, 145); // bg-white
+    padding: 2rem; // p-8 (32px)
+    // shadow-md (중간 정도의 그림자 효과)
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    .title {
+      margin-bottom: 1.5rem; // mb-6 (24px)
+      font-size: 1.5rem; // text-2xl (24px)
+      line-height: 2rem;
+      font-weight: 700; // font-bold
+      text-align: center; // text-center
+      color: #1f2937; // text-gray-800
+    }
+    .form {
+      display: flex;
+      flex-direction: column;
+
+      // 첫 번째 자식을 제외한 모든 자식 요소의 상단에 마진 추가
+      & > * + * {
+        margin-top: 1rem; // space-y-4 (16px)
+      }
+
+      .label {
+        display: block; // block
+        font-size: 0.875rem; // text-sm (14px)
+        line-height: 1.25rem;
+        font-weight: 500; // font-medium
+        color: #374151; // text-gray-700
+        margin-bottom: 0.25rem; // (팁) 보통 라벨 아래에 약간의 간격을 줍니다.
+      }
+      .input {
+        margin-top: 0.25rem; // mt-1
+        width: 100%; // w-full
+        border-radius: 0.375rem; // rounded-md
+        border: 1px solid #e5e7eb; // border (기본 border-gray-200 수준)
+        padding: 0.5rem; // p-2
+        color: #000000; // text-black
+        &:focus {
+          outline: 2px solid transparent; // focus:outline-none
+          outline-offset: 2px;
+          box-shadow: 0 0 0 2px #3b82f6; // focus:ring-2 focus:ring-blue-500
+        }
+      }
+      .button {
+        width: 100%; // w-full
+        border-radius: 0.375rem; // rounded-md
+        background-color: #2563eb; // bg-blue-600
+        padding-top: 0.5rem; // py-2 (상단)
+        padding-bottom: 0.5rem; // py-2 (하단)
+        color: #ffffff; // text-white
+        border: none; // 버튼 기본 테두리 제거
+        cursor: pointer; // 클릭 가능 표시
+        margin-top: 2ch;
+
+        // transition (색상 변화를 부드럽게)
+        transition: background-color 0.2s ease-in-out;
+
+        &:hover {
+          background-color: #1d4ed8; // hover:bg-blue-700
+        }
+
+        &:active {
+          transform: scale(
+            0.98
+          ); // (팁) 클릭 시 살짝 눌리는 효과를 추가하면 더 고급져요!
+        }
+      }
+    }
+    .link {
+      // text-align: right;
+      transition: background-color 0.2s ease-in-out;
+      align-self: flex-end; // 부모가 stretch여도 나만 쏙 빠져나와서 중앙 정렬 (너비 축소)
+      width: fit-content;
+      &:hover {
+        color: #1d4ed8; // hover:bg-blue-700
+      }
+      &:active {
+        transform: scale(
+          0.98
+        ); // (팁) 클릭 시 살짝 눌리는 효과를 추가하면 더 고급져요!
+      }
+    }
+  }
+}
