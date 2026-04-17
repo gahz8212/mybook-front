@@ -57,7 +57,7 @@ const SignUp = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">이메일</label>
+            <label  className={styles.label}>이메일</label>
             <input
               type="email"
               value={formData.email}
@@ -69,7 +69,7 @@ const SignUp = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">비밀번호</label>
+            <label  className={styles.label}>비밀번호</label>
             <input
               type="password"
               value={formData.password}
@@ -80,7 +80,7 @@ const SignUp = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">비밀번호 확인</label>
+            <label  className={styles.label}>비밀번호 확인</label>
             <input
               type="password"
               value={formData.confirm_password}
