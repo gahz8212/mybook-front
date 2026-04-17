@@ -29,7 +29,7 @@ export default function LoginPage() {
       // localStorage.setItem('accessToken', accessToken);
 
       alert('로그인 성공!');
-      router.push('/'); // 메인 페이지로 이동
+      router.push('/Main'); // 메인 페이지로 이동
     } catch (error: any) {
       console.error('로그인 실패:', error);
       alert('로그인에 실패했습니다. 이메일과 비밀번호를 확인하세요.');

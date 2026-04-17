@@ -7,6 +7,7 @@ import { useAuthStore } from "@/store/useAuthStore"
 interface LayoutProps {
   children: ReactNode;
 }
+//chidren타입을 LayoutProps라는 인터페이스로 감쌌으니까 {children}:LayoutProps가 되는 것
 
 const Layout = ({ children }: LayoutProps) => {
   const router = useRouter();
