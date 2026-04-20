@@ -1,40 +1,44 @@
+import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
+import { QueryErrorResetBoundary } from '@tanstack/react-query';
+import { ErrorBoundary } from 'react-error-boundary';
 import Link from 'next/link';
-import { useQuery } from '@tanstack/react-query';
-import api from './lib/axios'
-import type { Book } from '@/types/book'
-export default function Home() {
-  // const [bookList, setBookList] = useState<book[]>([])
-  // useEffect(() => {
-  //   const fetchBooks = async () => {
-  //     try {
-  //       const response = await api.get('/api/list');
-  //       // 데이터가 확실히 왔을 때만 업데이트
-  //       if (response.data) {
-  //         setBookList(response.data);
-  //       }
-  //     } catch (e) {
-  //       console.error(e);
-  //     }
-  //   };
 
-  //   fetchBooks();
-  // }, [])
-  const { data: bookList, isLoading, error } = useQuery({
-    queryKey: ['books'],
-    queryFn: async () => {
-      const response = await api.get('/api/list');
-      return response.data;
-    }
-  });
-  if (isLoading) return <div>로딩 중</div>;
-  if (error) return <div>에러 발생:{error.message}</div>;
+const BookList = dynamic(() => import('./BookList'), { ssr: false });
+
+function ErrorFallback({ error, resetErrorBoundary }: any) {
+  const message = error.response?.data?.message || "알 수 없는 에러가 발생했습니다.";
   return (
-    <div>HOME
-      {/* <button onClick={getList}>리스트 가져오기</button> */}
-      <div>
-
-        {bookList.map((item: Book) => { return <div key={item.id}>{<Link href={`/book/${item.id}`}>{item.title}</Link>}{item.description}{item.author}{item.published}</div> })}
-      </div>
+    <div className='error-wrapper'>
+      <h2>문제가 발생했습니다.</h2>
+      <p style={{ color: 'red' }}>{message}</p>
+      <button onClick={resetErrorBoundary}>다시 시도</button>
+      {/* 여기에 로그인 페이지 이동 버튼 등을 추가 */}
     </div>
   )
+}
+
+export default function Home() {
+
+
+  return (
+    <div>HOME <Link href="/CreateForm">새글</Link>
+      <QueryErrorResetBoundary>
+        {({ reset }) => (
+          <ErrorBoundary onReset={reset} FallbackComponent={ErrorFallback}>
+            <Suspense fallback={<ListSkeleton />}>
+              <BookList />
+            </Suspense>
+          </ErrorBoundary>
+        )}
+      </QueryErrorResetBoundary>
+
+    </div>
+  )
+}
+const ListSkeleton = () => {
+  return (<div className="skeleton-wrapper">
+    <div style={{ width: '500px', height: '100px', backgroundColor: 'gray' }}></div>
+
+  </div>)
 }

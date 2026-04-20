@@ -1,4 +1,4 @@
-// import dynamic from 'next/dynamic';
+
 import { Suspense, useState } from 'react';
 import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -21,6 +21,7 @@ function ErrorFallback({ error, resetErrorBoundary }: any) {
 export default function BookDetailPage() {
   const router = useRouter();
   const { id } = router.query;
+
   const [isEditMode, setIsEditMode] = useState(false);
 
   // id가 없으면 아예 아무것도 하지 않음
@@ -33,7 +34,7 @@ export default function BookDetailPage() {
           {({ reset }) => (
             <ErrorBoundary onReset={reset} FallbackComponent={ErrorFallback}>
               <Suspense fallback={<BookSkeleton />}>
-                <EditForm id={id} onCancel={() => setIsEditMode(true)} />
+                <EditForm id={id} onCancel={() => setIsEditMode(false)} />
               </Suspense>
             </ErrorBoundary>
           )}
@@ -43,7 +44,7 @@ export default function BookDetailPage() {
           {({ reset }) => (
             <ErrorBoundary onReset={reset} FallbackComponent={ErrorFallback}>
               <Suspense fallback={<BookSkeleton />}>
-                <ReadBook id={id} onEdit={() => setIsEditMode(false)} />
+                <ReadBook id={id} onEdit={() => setIsEditMode(true)} />
               </Suspense>
             </ErrorBoundary>
           )}
