@@ -8,12 +8,14 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const authData = localStorage.getItem("auth-storage");
+    if (typeof window !== "undefined") {
+      const authData = localStorage.getItem("auth-storage");
 
-    if (authData) {
-      const { state } = JSON.parse(authData);
-      if (state.accessToken) {
-        config.headers.Authorization = `Bearer ${state.accessToken}`;
+      if (authData) {
+        const { state } = JSON.parse(authData);
+        if (state.accessToken) {
+          config.headers.Authorization = `Bearer ${state.accessToken}`;
+        }
       }
     }
 
@@ -68,7 +70,9 @@ api.interceptors.response.use(
       } catch (reissueError) {
         // localStorage.removeItem('accessToken'); // 실패 시 흔적 삭제
         useAuthStore.getState().setLogout();
-        window.location.href = "/login";
+        if(typeof window!=='undefined'){
+          window.location.href = "/login";
+        }
         return Promise.reject(reissueError);
       }
     }
