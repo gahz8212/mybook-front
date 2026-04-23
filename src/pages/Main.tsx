@@ -17,28 +17,26 @@ function ErrorFallback({ error, resetErrorBoundary }: any) {
     </div>
   )
 }
-
+const ListSkeleton = () => {
+  return (<div className="skeleton-wrapper">
+    <div style={{ width: '500px', height: '100px', backgroundColor: 'gray' }}></div>
+  </div>)
+}
 export default function Home() {
 
 
   return (
-    <div>HOME <Link href="/CreateForm">새글</Link>
-      <QueryErrorResetBoundary>
-        {({ reset }) => (
-          <ErrorBoundary onReset={reset} FallbackComponent={ErrorFallback}>
-            <Suspense fallback={<ListSkeleton />}>
+    <QueryErrorResetBoundary>
+      {({ reset }) => (
+        <ErrorBoundary onReset={reset} FallbackComponent={ErrorFallback}>
+          <Suspense fallback={<ListSkeleton />}>
+            <div>HOME <Link href="/CreateForm">새글</Link>
               <BookList />
-            </Suspense>
-          </ErrorBoundary>
-        )}
-      </QueryErrorResetBoundary>
+            </div>
+          </Suspense>
+        </ErrorBoundary>
+      )}
+    </QueryErrorResetBoundary>
 
-    </div>
   )
-}
-const ListSkeleton = () => {
-  return (<div className="skeleton-wrapper">
-    <div style={{ width: '500px', height: '100px', backgroundColor: 'gray' }}></div>
-
-  </div>)
 }

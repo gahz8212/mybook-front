@@ -39,13 +39,13 @@
   }
   .main {
     flex: 1; // 남은 공간 모두 차지
-    // background-color: green;
+
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     // flex-direction: column;
     overflow-y: auto; // 레이아웃은 고정하되, 컨텐츠가 길어지면 내부에서만 스크롤!
-
+    // min-height: 100vh;
     // min-height: 0;
     // width: 100%; // 가로 너비도 꽉 채우도록 보장
   }
