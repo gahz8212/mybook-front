@@ -1,9 +1,10 @@
 import { ReactNode, useState } from 'react';
 import Link from 'next/link';
-import styles from './Layout.module.scss'
 import { useRouter } from 'next/router';
 import { useAuthStore } from "@/store/useAuthStore"
-
+import styles from './Layout.module.scss'
+import classNames from 'classnames/bind';
+const cx = classNames.bind(styles)
 interface LayoutProps {
   children: ReactNode;
 }
@@ -20,6 +21,7 @@ const Layout = ({ children }: LayoutProps) => {
     router.push('/login');
   }
   const hideLayout = ['/login', '/join'].includes(router.pathname)
+  console.log('roles', roles)
   return (
     <div className={styles.container} >
       {!hideLayout && <header className={styles.header}>
@@ -30,7 +32,7 @@ const Layout = ({ children }: LayoutProps) => {
           <>
             <span className={styles.username}>{userName}</span>
             <button className={styles.authButton} onClick={handledLogout}>로그아웃</button>
-            {roles.includes("ROLE_ADMIN") ? <button className={styles.authButton}>관리자</button> : ""}
+            {roles.includes("ROLE_ADMIN") ? <button className={cx('authButton')}><Link href="/Manage">관리자</Link></button> : ""}
           </>
 
         ) : (

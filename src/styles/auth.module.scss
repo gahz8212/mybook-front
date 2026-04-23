@@ -1,5 +1,8 @@
 .container {
   width: 400px;
+  margin: auto 0;
+  // background-color: yellow;
+
   //공통적인 스타일은 Layout.module.scss의 main에 작성하면 이곳에서 상속되어 적용된다.
 
   .header {

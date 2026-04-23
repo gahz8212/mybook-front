@@ -40,8 +40,10 @@ export default function ReadBook({ id, onEdit }: readBookProps) {
       <h1>{book.title}</h1>
       <p>{book.description}</p>
       <p>{book.author}</p>
-      <button onClick={() => onEdit()}>수정하기</button>
-      <button onClick={() => deleteMutation.mutate(nextId)}>삭제하기</button>
-      <button onClick={() => { router.push('/Main') }}>목록으로</button>
+      
+      <button className='btn sm primary' onClick={() => onEdit()}>수정하기</button>
+      <button className='btn sm warning' onClick={() => deleteMutation.mutate(nextId)}>삭제하기</button>
+      <button className='btn sm' onClick={() => { router.push('/Main') }}>목록으로</button>
+      
     </>)
 }

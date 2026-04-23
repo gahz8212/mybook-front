@@ -45,18 +45,26 @@ export default function EditForm({ id, onCancel }: EditFormProps) {
       alert(error.response?.data?.message || "등록 중 오류가 발생했습니다.");
     }
   })
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setItem((prev) => ({ ...prev, [name]: value }));
   }
   return (
-    <form method="post">
-      <input type="text" value={item.title} name="title" onChange={onChange} placeholder="제목" />
-      <input type="text" value={item.description} name="description" onChange={onChange} placeholder="내용" />
-      <input type="text" value={item.author} name="author" onChange={onChange} placeholder="저자" />
+    <form method="post" className="form_group">
+      <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
+        <label >TITLE</label>
+        <input type="text" value={item.title} name="title" onChange={onChange} placeholder="제목" />
+        <label>AUTHOR</label>
+        <input type="text" value={item.author} name="author" onChange={onChange} placeholder="저자" />
+      </div>
 
-      <button onClick={() => updateMutation.mutate({ ...item, id: nextId })}>수정</button>
-      <button onClick={onCancel}>취소</button>
+      <label>
+        <textarea cols={100} rows={20} value={item.description} name="description" onChange={onChange} placeholder="내용" />
+      </label>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '10px' }}>
+        <button className="btn md primary" onClick={() => updateMutation.mutate({ ...item, id: nextId })} >수정</button>
+        <button className="btn md warning" onClick={onCancel}>취소</button>
+      </div>
     </form>
 
   )
