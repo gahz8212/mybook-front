@@ -8,23 +8,34 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    if (typeof window !== "undefined") {
-      const authData = localStorage.getItem("auth-storage");
+    // 1. Zustand 스토어에서 직접 최신 토큰을 가져옵니다.
+    // persist 미들웨어를 사용하더라도 getState()로 메모리 값을 즉시 참조 가능합니다.
+    const token = useAuthStore.getState().accessToken;
 
-      if (authData) {
-        const { state } = JSON.parse(authData);
-        if (state.accessToken) {
-          config.headers.Authorization = `Bearer ${state.accessToken}`;
-        }
-      }
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
-
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  },
+  (error) => Promise.reject(error)
 );
+//     if (typeof window !== "undefined") {
+//       const authData = localStorage.getItem("auth-storage");
+
+//       if (authData) {
+//         const { state } = JSON.parse(authData);
+//         if (state.accessToken) {
+//           config.headers.Authorization = `Bearer ${state.accessToken}`;
+//         }
+//       }
+//     }
+
+//     return config;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   },
+// );
 
 api.interceptors.response.use(
   (response) => response,
@@ -34,20 +45,20 @@ api.interceptors.response.use(
     if (response?.status === 401 && !config._retry) {
       config._retry = true;
       try {
-        const authData = localStorage.getItem("auth-storage");
-        if (authData) {
-          const { state } = JSON.parse(authData);
-          if (state.accessToken) {
-            // 별도의 axios 인스턴스가 아닌 설정된 api 인스턴스를 사용하거나
-            // 직접 호출 시에도 withCredentials 확인
-            console.log(state.accessToken);
+        // const authData = localStorage.getItem("auth-storage");
+        // if (authData) {
+        //   const { state } = JSON.parse(authData);
+        //   if (state.accessToken) {
+        //     // 별도의 axios 인스턴스가 아닌 설정된 api 인스턴스를 사용하거나
+        //     // 직접 호출 시에도 withCredentials 확인
+        //     console.log(state.accessToken);
             const res = await axios.post(
               "http://localhost:8081/api/reissue",
               {},
               {
-                headers: {
-                  Authorization: `Bearer ${state.accessToken}`,
-                },
+                // headers: {
+                //   Authorization: `Bearer ${state.accessToken}`,
+                // },
                 withCredentials: true,
               },
             );
@@ -64,9 +75,10 @@ api.interceptors.response.use(
             // 실패했던 요청 재시도
             console.log("전체 config:", config);
             config.headers["Authorization"] = `Bearer ${accessToken}`;
-            return api.request(config);
-          }
-        }
+            return api(config);
+            // return api.request(config);
+          // }
+        // }
       } catch (reissueError) {
         // localStorage.removeItem('accessToken'); // 실패 시 흔적 삭제
         useAuthStore.getState().setLogout();
